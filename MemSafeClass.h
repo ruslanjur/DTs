@@ -1,7 +1,6 @@
 #include "MemCheck.h"
 
-unsigned int CYODT::MemCheck<class MemSafeDemoClass>::dynCount = 0;
-CYODT::MemCheck<class MemSafeDemoClass>::Alert CYODT::MemCheck<class MemSafeDemoClass>::_a;
+MEMCHECKSTATICS(MemSafeDemoClass)
 
 class MEMCHECK(MemSafeDemoClass)
 {

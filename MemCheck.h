@@ -1,7 +1,7 @@
 #include <iostream>
 
 #define MEMCHECK(className) className : public CYODT::MemCheck<className>
-
+#define MEMCHECKSTATICS(className) unsigned int CYODT::MemCheck<class className>::dynCount = 0; CYODT::MemCheck<class className>::Alert CYODT::MemCheck<class className>::_a;
 namespace CYODT
 {
     template<class T>
