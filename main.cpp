@@ -1,115 +1,31 @@
-#include "MemCheck.h"
-#include <iostream>
-//#include <stdio.h>
-
-
-int strlen(char* str)
-{
-    int cnt = 0;
-    while (str[cnt] != 0)
-    {
-        cnt++;
-    }
-    return cnt;
-}
-
-
-void strcpy(char* dest, char* src)
-{
-    for (int i = 0; i <= strlen(src); i++)
-    {
-        dest[i] = src[i];
-    }
-}
-
-
-
-class MemSafeClass : public CYODT::MemCheck
-{
-private:
-    char* str;
-protected:
-public:
-    MemSafeClass(char* str);
-    ~MemSafeClass();
-
-    void setStr(char*);
-    char* getStr() const;
-
-};
-
-std::ostream& operator<<(std::ostream& os, MemSafeClass& str);
-std::istream& operator>>(std::istream& is, MemSafeClass& str);
+#include "MemSafeClass.h"
 
 int main()
 {
 #define STEP(n) std::cout<<"\n\t\tSTEP "<<n<<":"<<std::endl
     int step = 0;
 
-    STEP(++step);
-    MemSafeClass str("test1");
+    STEP(++step);//1
+    MemSafeClass _str("test1");  //Instantiate MemSafeClass _str with "test1" value
 
-    STEP(++step);
-    std::cout<<str<<std::endl;
+    STEP(++step);//2
+    std::cout<<_str<<std::endl;  //Output _str on the screen
 
-    STEP(++step);
+    STEP(++step);//3
     std::cout<<"enter something: ";
-    std::cin>>str;
+    std::cin>>_str; //Change the value stored in _str
 
-    STEP(++step);
-    std::cout<<str<<std::endl;
+    STEP(++step);//4
+    std::cout<<_str<<std::endl; //Output changed _str on the screen
 
-    STEP(++step);
-    str = *(new MemSafeClass("extra"));
+    //BROKEN STEP 1
+    STEP(++step);//5
+    _str = *(new MemSafeClass("extra"));    //allocate a new MemSafeClass object while forgetting to deallocate the old one
 
-    STEP(++step);
-    std::cout<<str<<std::endl;
+    //BROKEN STEP 2
+    STEP(++step);//6
+    std::cout<<_str<<std::endl; //Output the new _str on the screen
 
     STEP("FINAL");
-    return 0;
+    return 0;   //Main cleans stuff
 }
-
-MemSafeClass::MemSafeClass(char* str)
-{
-    this->str = new char[strlen(str) + 1];
-    strcpy(this->str, str);
-
-    std::cout<<"MemSafeClass("<<this->str<<")"<<std::endl;
-}
-
-MemSafeClass::~MemSafeClass()
-{
-    if (str) delete [] str;
-    std::cout<<"~MemSafeClass()"<<std::endl;
-}
-
-void MemSafeClass::setStr(char* str)
-{
-    if (str)
-    {
-        if (this->str)
-            delete [] this->str;
-        this->str = new char[strlen(str) + 1];
-        strcpy(this->str, str);
-    }
-}
-
-char* MemSafeClass::getStr() const
-{
-    return this->str;
-}
-
-std::ostream& operator<<(std::ostream& os, MemSafeClass& str)
-{
-    os<<str.getStr();
-    return os;
-}
-
-std::istream& operator>>(std::istream& is, MemSafeClass& str)
-{
-    char tmp[100];
-    is>>tmp;
-    str.setStr(tmp);
-    return is;
-}
-
