@@ -6,7 +6,7 @@ int main()
     int step = 0;
 
     STEP(++step);//1
-    MemSafeClass _str("test1");  //Instantiate MemSafeClass _str with "test1" value
+    MemSafeDemoClass _str("test1");  //Instantiate MemSafeDemoClass _str with "test1" value
 
     STEP(++step);//2
     std::cout<<_str<<std::endl;  //Output _str on the screen
@@ -20,7 +20,7 @@ int main()
 
     //BROKEN STEP 1
     STEP(++step);//5
-    _str = *(new MemSafeClass("extra"));    //allocate a new MemSafeClass object while forgetting to deallocate the old one
+    _str = *(new MemSafeDemoClass("extra"));    //allocate a new MemSafeDemoClass object while forgetting to deallocate the old one
 
     //BROKEN STEP 2
     STEP(++step);//6

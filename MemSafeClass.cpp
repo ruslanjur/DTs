@@ -20,21 +20,21 @@ void strcpy(char* dest, char* src)
 }
 
 
-MemSafeClass::MemSafeClass(char* str)
+MemSafeDemoClass::MemSafeDemoClass(char* str)
 {
     this->str = new char[strlen(str) + 1];
     strcpy(this->str, str);
 
-    //std::cout<<"MemSafeClass(\""<<this->str<<"\")"<<std::endl;
+    //std::cout<<"MemSafeDemoClass(\""<<this->str<<"\")"<<std::endl;
 }
 
-MemSafeClass::~MemSafeClass()
+MemSafeDemoClass::~MemSafeDemoClass()
 {
     if (str) delete [] str;
-    //std::cout<<"~MemSafeClass()"<<std::endl;
+    //std::cout<<"~MemSafeDemoClass()"<<std::endl;
 }
 
-void MemSafeClass::setStr(char* str)
+void MemSafeDemoClass::setStr(char* str)
 {
     if (str)
     {
@@ -45,18 +45,18 @@ void MemSafeClass::setStr(char* str)
     }
 }
 
-char* MemSafeClass::getStr() const
+char* MemSafeDemoClass::getStr() const
 {
     return this->str;
 }
 
-std::ostream& operator<<(std::ostream& os, MemSafeClass& str)
+std::ostream& operator<<(std::ostream& os, MemSafeDemoClass& str)
 {
     os<<str.getStr();
     return os;
 }
 
-std::istream& operator>>(std::istream& is, MemSafeClass& str)
+std::istream& operator>>(std::istream& is, MemSafeDemoClass& str)
 {
     char tmp[100];
     is>>tmp;
